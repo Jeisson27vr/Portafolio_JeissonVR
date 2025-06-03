@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jeisson Ventura – Portafolio Tech</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+
+  <!-- ======= Estilos adicionales para ChatBot Jeisson Bot ======= -->
+  <style>
+    /* ---- ChatBot flotante en la esquina inferior derecha ---- */
+    #chatBotBubble {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 1000;
+      background-color: #00aaff;        /* color celeste */
+      color: white;
+      border-radius: 50px;
+      padding: 8px 16px;
+      box-shadow: 0 0 10px rgba(0, 170, 255, 0.6);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      font-size: 0.95rem;
+    }
+    #chatBotBubble:hover {
+      transform: scale(1.05);
+    }
+    #chatBotBubble img {
+      width: 32px;
+      height: 32px;
+    }
+
+    /* ---- Ventana de Chat (oculta inicialmente) ---- */
+    #chatWindow {
+      position: fixed;
+      bottom: 90px;      /* justo arriba de la burbuja */
+      right: 30px;       /* mismo margen que la burbuja */
+      width: 300px;
+      max-height: 400px;
+      background: #002d36;
+      border: 2px solid #00ffa3;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0, 255, 163, 0.5);
+      display: none;     /* inicia oculta */
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 1000;
+    }
+    /* Cabecera de la ventana de chat */
+    .bitbit-header {
+      background: #00ffa3;
+      color: #003838;
+      padding: 10px;
+      font-weight: bold;
+      text-align: center;
+      font-size: 0.95rem;
+    }
+    /* Cuerpo con los mensajes */
+    .bitbit-body {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      color: white;
+      font-size: 0.9rem;
+      background: #001d24;
+    }
+    /* Estilo de cada mensaje */
+    .bitbit-body .msg {
+      padding: 8px 12px;
+      border-radius: 12px;
+      max-width: 80%;
+    }
+    .msg.bot {
+      background: #00ffa340;  /* fondo celeste translúcido */
+      color: #00ffa3;
+      align-self: flex-start;
+    }
+    .msg.user {
+      background: #005a4d;    /* tono oscuro verdoso */
+      color: #fff;
+      align-self: flex-end;
+    }
+    /* Área de input + botón */
+    #chatInputArea {
+      display: flex;
+      border-top: 1px solid #00ffa3;
+      background: #002d36;
+    }
+    #chatInputArea input {
+      flex: 1;
+      border: none;
+      padding: 10px;
+      background: #003838;
+      color: #fff;
+      font-size: 0.9rem;
+      outline: none;
+    }
+    #chatInputArea button {
+      background: #00ffa3;
+      border: none;
+      padding: 10px 14px;
+      color: #003838;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Debe ir lo más arriba posible dentro del <body> -->
+<div class="hero-banner">
+  <img src="img/banner.png" alt="Banner superior">
+</div>
+
+
+
+  <!-- Fondo animado -->
+  <canvas id="backgroundCanvas"></canvas>
+
+  <!-- Loader -->
+  <div id="loader">
+    <div class="loader-logo">Jeisson Ventura</div>
+  </div>
+
+  <!-- Contenido principal -->
+  <div class="container" style="display: none;">
+    <!-- Hero -->
+    <header class="hero" id="hero">
+      <div class="hero-content">
+        <!-- Avatar y contactos -->
+        <div class="avatar-wrapper">
+          <img src="./assets/jeisson-foto.png" alt="Foto de Jeisson Ventura" class="avatar avatar-large" />
+         <!-- ░░░ Contact Icons – enlaces actualizados ░░░ -->
+<div class="contact-icons">
+  <!-- Gmail (mailto con asunto + cuerpo) -->
+  <a href="mailto:jeisson.ventura.r@gmail.com
+            ?subject=Interés%20en%20tu%20perfil%20profesional
+            &body=Hola%20Jeisson%2C%0A%0A
+                  He%20visto%20tu%20portafolio%20y%20me%20gustaría%20conocer%20más%20sobre%20tu%20experiencia.%0A%0A
+                  Saludos."
+     aria-label="Enviar correo a Jeisson vía Gmail">
+    <img src="icons/gmail.png" alt="Gmail">
+  </a>
+
+  <!-- Outlook (mailto funciona igual) -->
+  <a href="mailto:jeisson.ventura.r@hotmail.com
+            ?subject=Oportunidad%20profesional
+            &body=Estimado%20Jeisson%2C%0A%0A
+                  Me%20encantaría%20hablar%20contigo%20sobre%20una%20posible%20colaboración.%0A%0A
+                  Quedo%20atento."
+     aria-label="Enviar correo a Jeisson vía Outlook">
+    <img src="icons/hotmail.png" alt="Outlook">
+  </a>
+
+  <!-- LinkedIn – sin cambios, abre perfil en pestaña nueva -->
+  <a href="https://www.linkedin.com/in/jeisson-ventura/" target="_blank"
+     aria-label="Visitar perfil LinkedIn de Jeisson">
+    <img src="icons/linkedin.png" alt="LinkedIn">
+  </a>
+
+  <!-- WhatsApp con mensaje personalizado “humano” -->
+  <a href="https://wa.me/593978793128
+            ?text=Hola%20Jeisson%2C%20acabo%20de%20ver%20tu%20portafolio%20y%20me%20encantaría%20charlar%20contigo%20sobre%20una%20oportunidad%20profesional."
+     target="_blank"
+     aria-label="Enviar mensaje WhatsApp a Jeisson">
+    <img src="icons/whatsapp.png" alt="WhatsApp">
+  </a>
+</div>
+
+        </div>
+        <!-- Intro -->
+        <div class="intro">
+          <h1>Jeisson Ventura</h1>
+          <p class="subtitle">
+            Transformando datos en decisiones,<br />
+            procesos en automatización.
+          </p>
+          <div class="buttons">
+            <a href="#proyectos" class="btn primary">Ver proyectos</a>
+            <a href="assets/CV_Jeisson_Ventura.pdf" download class="btn secondary">Descargar CV</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+ <!-- ░░░ SOBRE MÍ ░░░ -->
+<section id="sobre-mi" class="fade-in">
+  <h2>Sobre mí</h2>
+
+  <p class="about-lead">
+    Futuro Ingeniero en Ciencias de Datos, Tecnólogo en Ensamblaje y Mantenimiento de Equipos de Cómputo con mas de 4 años</strong> como analista de datos en diferentes areas como
+    <em>Analitica Avanzada & Business Intelligence</em> para la banca, consumo masivo y
+    retail, automatizando procesos con IA, Combino <strong>modelos predictivos</strong> y
+    <strong>automatización RPA, Python </strong> para convertir flujos de datos crudos en
+    decisiones ejecutivas y generando insights que impulsan la buena toma de decisiones basada en datos.
+  </p>
+
+  <div class="tags">
+    <span><img src="icons/datascience.png"        alt="" class="tag-icon" />Data Science</span>
+    <span><img src="icons/ia.png"                 alt="" class="tag-icon" />Inteligencia Artificial</span>
+    <span><img src="icons/graficolineas.png"         alt="" class="tag-icon" />Modelos Predictivos</span>
+    <span><img src="icons/powerbi.png"     alt="" class="tag-icon" />Business Intelligence</span>
+  </div>
+</section>
+
+
+<!-- =========================
+     Experiencia Laboral (carrusel)
+     ========================= -->
+<section id="experiencia">
+  <h2>Experiencia Laboral</h2>
+
+  <!-- Contenedor del carrusel -->
+  <div class="experience-slider">
+    <div class="slide-track">
+
+      <!-- Slide 1 -->
+      <div class="slide">
+        <img src="img/logo_BancoAmazonas.png"
+             alt="Analista de Datos – Banco Amazonas" class="slide-logo" />
+        <h3>Analista de Datos – Banco Amazonas</h3>
+        <p class="period">Área de Finanzas(Actualidad)</p>
+        <ul class="funciones">
+          <li>Diseño de procesos ETL en SQL Server para consolidar información financiera.</li>
+          <li>Automatización de flujos críticos mediante RPA y scripts en Python y Power Automate.</li>
+          <li>Construcción de dashboards ejecutivos en Power BI con KPIs financieros.</li>
+        </ul>
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="slide">
+        <img src="img/logo_Calbaq.png"
+             alt="Analista de Datos – Calbaq" class="slide-logo" />
+        <h3>Analista de Datos – Calbaq</h3>
+        <p class="period"> Área Inteligencia de Negocios (03/2024 – 02/2025)</p>
+        <ul class="funciones">
+          <li>Extracción y transformación de datos desde diversas fuentes (Excel, SAP, SQL).</li>
+          <li>Desarrollo de reportes automatizados y soporte a BI, Route to Market y RGM.</li>
+          <li>Creación de métricas y ruteros para rutas al mercado con R Studio y SSIS.</li>
+          <li>Desarrollo de algoritmo de predicción de ventas y despliegues de rutas.</li>
+        </ul>
+      </div>
+
+      <!-- Slide 3 – Prosigma -->
+<div class="slide">
+  <img src="img/logo_prosigma.png" alt="Prosigma" class="slide-logo">
+
+  <h3>Analista de Base de Datos – Prosigma S.A</h3>
+  <p class="period">08/2022 – 12/2023</p>
+
+  <ul class="funciones">
+    <li>Creación de aplicativo con IA de reconocimiento facial para registro de personal.</li>
+    <li>Gestión de datos para registros de asistencias y cálculo de nóminas.</li>
+    <li>Creación de indicadores clave (KPI) y visualización en Power BI.</li>
+    <li>Automatización de reportes de asistencia y nómina para mayor eficiencia.</li>
+  </ul>
+
+  <!-- ░ Testimonio animado ░ -->
+<div class="testimonial">
+  <p class="testimonial-text">
+    “Gracias a Jeisson pudimos digitalizar el control de asistencia a nivel nacional
+    en todos los CDIS y logramos el pago de nomina a tiempo.”
+  </p>
+  <img src="icons/testimonio.png" class="testimonial-avatar" alt="Empleado feliz">
+  </div>
+</div>
+
+
+
+      <!-- Slide 4 -->
+      <div class="slide">
+        <img src="img/logo_tonicorp.png"
+             alt="Analista de Datos – Consultor Externo Tonicorp" class="slide-logo" />
+        <h3>Consultor Externo – Tonicorp</h3>
+        <p class="period">Producción (08/2021 – 07/2022)</p>
+        <ul class="funciones">
+          <li>Creación de indicadores de producción en tiempo real mediante Power BI.</li>
+          <li>Automatización de reportes de producción y control de calidad.</li>
+          <li>Desarrollo de dashboards interactivos para seguimiento de KPI de planta.</li>
+          <li>Generación de informes de cumplimiento de indicadores de producción.</li>
+        </ul>
+      </div>
+
+      <!-- Duplicados para scroll infinito -->
+
+     <!-- Slide 1 -->
+      <div class="slide">
+        <img src="img/logo_BancoAmazonas.png"
+             alt="Analista de Datos – Banco Amazonas" class="slide-logo" />
+        <h3>Analista de Datos – Banco Amazonas</h3>
+        <p class="period">Área de Finanzas(Actualidad)</p>
+        <ul class="funciones">
+          <li>Diseño de procesos ETL en SQL Server para consolidar información financiera.</li>
+          <li>Automatización de flujos críticos mediante RPA y scripts en Python y Power Automate.</li>
+          <li>Construcción de dashboards ejecutivos en Power BI con KPIs financieros.</li>
+        </ul>
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="slide">
+        <img src="img/logo_Calbaq.png"
+             alt="Analista de Datos – Calbaq" class="slide-logo" />
+        <h3>Analista de Datos – Calbaq</h3>
+        <p class="period"> Área Inteligencia de Negocios (03/2024 – 02/2025)</p>
+        <ul class="funciones">
+          <li>Extracción y transformación de datos desde diversas fuentes (Excel, SAP, SQL).</li>
+          <li>Desarrollo de reportes automatizados y soporte a BI, Route to Market y RGM.</li>
+          <li>Creación de métricas y ruteros para rutas al mercado con R Studio y SSIS.</li>
+          <li>Desarrollo de algoritmo de predicción de ventas y despliegues de rutas.</li>
+        </ul>
+      </div>
+
+      <!-- Slide 3 – Prosigma -->
+<div class="slide">
+  <img src="img/logo_prosigma.png" alt="Prosigma" class="slide-logo">
+
+  <h3>Analista de Base de Datos – Prosigma S.A</h3>
+  <p class="period">08/2022 – 12/2023</p>
+
+  <ul class="funciones">
+    <li>Creación de aplicativo con IA de reconocimiento facial para registro de personal.</li>
+    <li>Gestión de datos para registros de asistencias y cálculo de nóminas.</li>
+    <li>Creación de indicadores clave (KPI) y visualización en Power BI.</li>
+    <li>Automatización de reportes de asistencia y nómina para mayor eficiencia.</li>
+  </ul>
+
+   <!-- ░ Testimonio animado ░ -->
+<div class="testimonial">
+  <p class="testimonial-text">
+    “Gracias a Jeisson pudimos digitalizar el control de asistencia a nivel nacional
+    en todos los CDIS y logramos el pago de nomina a tiempo.”
+  </p>
+  <img src="icons/testimonio.png" class="testimonial-avatar" alt="Empleado feliz">
+  </div>
+</div>
+  <!-- ←← este cierre faltaba -->
+
+
+      <!-- Slide 4 -->
+      <div class="slide">
+        <img src="img/logo_tonicorp.png"
+             alt="Analista de Datos – Consultor Externo Tonicorp" class="slide-logo" />
+        <h3>Consultor Externo – Tonicorp</h3>
+        <p class="period">Producción (08/2021 – 07/2022)</p>
+        <ul class="funciones">
+          <li>Creación de indicadores de producción en tiempo real mediante Power BI.</li>
+          <li>Automatización de reportes de producción y control de calidad.</li>
+          <li>Desarrollo de dashboards interactivos para seguimiento de KPI de planta.</li>
+          <li>Generación de informes de cumplimiento de indicadores de producción.</li>
+        </ul>
+      </div>
+
+    </div> <!-- /.slide-track -->
+  </div>   <!-- /.experience-slider -->
+</section>
+
+
+
+
+
+    <!-- Certificaciones -->
+<section id="certificaciones">
+  <h2>Certificaciones</h2>
+  <div class="tags">
+    <span>
+      <img src="icons/datascience.png" alt="Data Science" class="cert-icon" />
+      Data Science en Banca y Finanzas
+    </span>
+    <span>
+      <img src="icons/ia.png" alt="Inteligencia Artificial" class="cert-icon" />
+      IA aplicada a procesos
+    </span>
+    <span>
+      <img src="icons/sqlserver.png" alt="SQL Server" class="cert-icon" />
+      SQL Server
+    </span>
+    <span>
+      <img src="icons/python.png" alt="Python" class="cert-icon" />
+      Python
+    </span>
+    <span>
+      <img src="icons/rstudio.png" alt="RStudio" class="cert-icon" />
+      RStudio
+    </span>
+  </div>
+</section>
+
+
+    <!-- Proyectos -->
+    <section id="proyectos">
+      <h2>Proyectos</h2>
+      <div class="cards">
+        <div class="card">
+          <h3>Automatización de envíos de correos y facturas diarias.</h3>
+          <p>Power Automate</p>
+        </div>
+        <div class="card">
+          <h3>Algoritmos de Predicción Comercial en R, Python</h3>
+          <p>Visualización en Power BI</p>
+        </div>
+        <div class="card">
+          <h3>Asistente Virtual con IA</h3>
+          <p>Inteligencia Artificial</p>
+        </div>
+        <div class="card link-card">
+          <a href="ia-extractor.html" style="text-decoration:none; color:inherit; display:block;">
+            <h3>Planificación de rutas al mercado, basada en data</h3>
+            <p>Rutas y segmentación</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ░░░ Dashboards Power BI ░░░ -->
+<section id="dashboards">
+  <h2 class="dash-title">Visualiza mis dashboards en acción</h2>
+
+  <p class="dash-note">
+    Todos los datos presentados en los dashboards han sido generados mediante inteligencia artificial. La base de datos utilizada es completamente ficticia y tiene fines exclusivamente demostrativos.
+  </p>
+
+  <div class="dashboard-gallery">
+    <div class="dashboard-card"
+         onclick="window.open('https://app.powerbi.com/view?r=eyJrIjoiNzdjNTljNWUtMzgxYS00ZTM0LWE0NTItNmY0NGY1OTg1NTliIiwidCI6IjJjY2VkMmM4LWEzZDQtNGEyYS04MTVlLTUzMWQwYmQzNmUzNCIsImMiOjR9')">
+      <img src="img/dash_comercial.png" alt="Dashboard Comercial">
+      <h3>Comercial</h3>
+    </div>
+
+    <div class="dashboard-card"
+         onclick="window.open('https://app.powerbi.com/view?r=eyJrIjoiN2ExZTg2M2MtNTEwMi00NDM5LTg3M2ItN2Y3NjBiYzhiZDc4IiwidCI6IjJjY2VkMmM4LWEzZDQtNGEyYS04MTVlLTUzMWQwYmQzNmUzNCIsImMiOjR9')">
+      <img src="img/dash_operativo.png" alt="Dashboard Operativo">
+      <h3>Operativo</h3>
+    </div>
+
+    <div class="dashboard-card"
+         onclick="window.open('https://app.powerbi.com/view?r=eyJrIjoiYzc2MmM3N2UtYTQ1OS00MDFiLTg4ODUtNWY4MWUyMzEzZDNjIiwidCI6IjJjY2VkMmM4LWEzZDQtNGEyYS04MTVlLTUzMWQwYmQzNmUzNCIsImMiOjR9')">
+      <img src="img/dash_kpi.png" alt="Dashboard KPI">
+      <h3>Indicadores KPI</h3>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+    <!-- Contacto -->
+    <section id="contacto">
+      <h2>Quieres que te Contacte ?</h2>
+      <form action="https://formspree.io/f/xblovgon" method="POST" onsubmit="mostrarGracias(event)">
+        <input type="text" name="name" placeholder="Tu nombre" required />
+        <input type="email" name="email" placeholder="Correo electrónico" required />
+        <textarea name="message" rows="5" placeholder="Tu mensaje" required></textarea>
+        <button type="submit" class="btn primary">Enviar mensaje</button>
+      </form>
+    </section>
+
+
+    <!-- Gracias -->
+    <section id="gracias" style="display: none;" class="fade-in">
+      <h2>✅ ¡Gracias por tu mensaje!</h2>
+      <p>Tu mensaje fue enviado con éxito. Te responderé muy pronto.</p>
+      <a href="#hero" class="btn secondary">Volver al inicio</a>
+    </section>
+
+
+ <footer class="site-footer">
+  <p>
+    © 2025 Jeisson Ventura R. · Todos los derechos reservados.<br>
+    Este portafolio es de carácter personal; los proyectos y datos que contiene son
+    simulados y se muestran únicamente con fines demostrativos de competencias técnicas.
+    Queda prohibida su reproducción total o parcial.<br>
+    <a href="mailto:jeisson.ventura.r@gmail.com">jeisson.ventura.r@gmail.com</a>
+  </p>
+</footer>
+
+
+  <!-- Nueva versión: burbuja al lado derecho y texto en dos líneas -->
+  <div id="chatBotBubble" onclick="toggleBitbitChat()">
+    <img src="img/bitbit.png" alt="BitBit" />
+    <div style="display: flex; flex-direction: column; line-height: 1.2;">
+      <span>Hola, soy Jeisson Bot.</span>
+      <span>¿Qué deseas saber de mí?</span>
+    </div>
+  </div>
+
+  <!-- Ventana de chat desplegable -->
+  <div id="chatWindow">
+    <div class="bitbit-header">🤖 Jeisson Bot</div>
+    <div class="bitbit-body" id="chatBody">
+      <div class="msg bot">
+        ¡Hola! Para comenzar, me gustaría saber tu nombre, ¿cómo te llamas?<br/>
+        Luego puedes preguntarme sobre mi experiencia, proyectos con IA, certificaciones o habilidades técnicas.
+      </div>
+    </div>
+    <div id="chatInputArea">
+      <input type="text" id="chatInput" placeholder="Escribe tu pregunta..." autocomplete="off" />
+      <button id="sendBtn">Enviar</button>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/app.js"></script>
+  <script>
+    // Función para mostrar/ocultar la ventana de chat
+    function toggleBitbitChat() {
+      const chatBox = document.getElementById("chatWindow");
+      chatBox.style.display = (chatBox.style.display === "flex") ? "none" : "flex";
+    }
+
+
+/* ░░░ Typewriter loop, ritmo pausado ░░░ */
+document.querySelectorAll('.testimonial-text').forEach(el=>{
+  const full = el.textContent.trim();
+  const speed  = 95;    // 95 ms por carácter  (~10-11 cps)
+  const pause  = 3500;  // 3,5 s de pausa al terminar
+  let i = 0;
+
+  el.textContent = '';  // inicia vacío
+
+  function loop(){
+    if(i <= full.length){
+      el.textContent = full.slice(0, i);
+      i++;
+      setTimeout(loop, speed);
+    }else{
+      setTimeout(()=>{ el.textContent=''; i=0; loop(); }, pause);
+    }
+  }
+  loop();
+});
+</script>
+
+
+
+
+
+    // Elementos del chat
+    const chatBody   = document.getElementById("chatBody");
+    const chatInput  = document.getElementById("chatInput");
+    const sendBtn    = document.getElementById("sendBtn");
+
+    // Enviar pregunta al presionar "Enviar" o la tecla Enter
+    sendBtn.addEventListener("click", enviarPregunta);
+    chatInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") enviarPregunta();
+    });
+
+    async function enviarPregunta() {
+      const pregunta = chatInput.value.trim();
+      if (!pregunta) return;
+
+      // Mostrar el mensaje del usuario
+      chatBody.innerHTML += `<div class="msg user">${pregunta}</div>`;
+      // Mensaje temporal “Pensando…”
+      chatBody.innerHTML += `<div class="msg bot">⏳ Pensando…</div>`;
+      chatInput.value = "";
+      chatBody.scrollTop = chatBody.scrollHeight;
+
+      try {
+        // Llamada al backend /chat
+        const resp = await fetch("http://localhost:3001/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: pregunta })
+        });
+        const data = await resp.json();
+        // Reemplazar “Pensando…” por la respuesta real
+        chatBody.lastElementChild.remove();
+        chatBody.innerHTML += `<div class="msg bot">${data.reply}</div>`;
+      } catch (err) {
+        chatBody.lastElementChild.remove();
+        chatBody.innerHTML += `<div class="msg bot">❌ Error al contactar al asistente.</div>`;
+        console.error(err);
+      }
+      chatBody.scrollTop = chatBody.scrollHeight;
+    }
+  </script>
+</body>
+</html>

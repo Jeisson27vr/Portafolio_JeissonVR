@@ -1,0 +1,39 @@
+// js/app.js
+
+// 1) Loader + fade-in del contenido
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => {
+    document.getElementById('loader').style.display = 'none';
+    document.querySelector('.container').classList.add('show');
+  }, 2000);
+});
+
+// 2) ScrollReveal para animar secciones
+ScrollReveal().reveal('.hero-text',    { delay: 200, origin: 'left',  distance: '40px' });
+ScrollReveal().reveal('.avatar-wrapper',{ delay: 300, origin: 'right', distance: '40px' });
+ScrollReveal().reveal('#sobre-mi',      { delay: 400, origin: 'bottom',distance: '40px' });
+ScrollReveal().reveal('#proyectos',     { delay: 500, origin: 'bottom',distance: '40px' });
+ScrollReveal().reveal('#contacto',      { delay: 600, origin: 'bottom',distance: '40px' });
+
+// 3) Formspree AJAX + sección “Gracias”
+function mostrarGracias(e) {
+  e.preventDefault();
+  fetch(e.target.action, {
+    method: 'POST',
+    body: new FormData(e.target),
+    headers: { 'Accept': 'application/json' }
+  });
+  e.target.style.display = 'none';
+  document.getElementById('gracias').style.display = 'block';
+  document.getElementById('gracias').scrollIntoView({ behavior: 'smooth' });
+}
+document.querySelector('form').addEventListener('submit', mostrarGracias);
+
+// 4) Sonido hover en botones y tarjetas
+const hoverSound = document.getElementById('hover-sound');
+document.querySelectorAll('.sound').forEach(el =>
+  el.addEventListener('mouseenter', () => {
+    hoverSound.currentTime = 0;
+    hoverSound.play();
+  })
+);

@@ -1,0 +1,956 @@
+/* ==== Reset general ==== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/*body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #003838;
+  color: #ffffff;
+  line-height: 1.6;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ==== Loader ==== */
+#loader {
+  position: fixed;
+  inset: 0;
+  background-color: #003838;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.loader-logo {
+  font-size: 2.5rem;
+  color: #00e5ff;
+  font-weight: bold;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.5; }
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem;
+  opacity: 0;
+  transition: opacity 1s ease;
+  position: relative;
+  z-index: 1;
+}
+
+/* ==== Banner superior con transparencia ==== */
+.hero-banner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+/* ==== Ajustes de visibilidad ==== */
+.hero-banner img{
+  opacity:0.4;          /* antes 0.25 → ahora se ve más */
+}
+
+/* --- Capa superpuesta para dar contraste --- */
+.hero-banner::after{
+  content:"";
+  position:absolute; inset:0;
+  background:rgba(0,0,0,0.35); /* oscurece lo justo */
+  pointer-events:none;         /* no bloquea clics */
+}
+
+
+
+
+
+
+ */
+/* ==== Redes debajo del avatar ==== */
+.contact-icons {
+  display: flex;
+  justify-content: center;
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+
+.contact-icons a {
+  background: rgba(0, 229, 255, 0.1);
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: transform 0.3s, box-shadow 0.3s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 8px rgba(0, 229, 255, 0.2);
+}
+
+.contact-icons a:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 12px rgba(0, 229, 255, 0.6);
+}
+
+.contact-icons img {
+  width: 20px;
+  height: 20px;
+}
+
+/* ==== Hero con flex ==== */
+.hero-content {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* ░░░ Avatar – borde degradado tipo “sunrise” ░░░ */
+
+/* 1. El wrapper sirve de contenedor del pseudo-elemento */
+/* ░░░ Avatar con aro Sunrise, sin contaminar la foto ░░░ */
+.avatar-wrapper{
+  width:165px;
+  height:165px;
+  border-radius:50%;
+
+  /* Tamaño del aro = padding */
+  padding:3px;                      /* 4-5 px luce bien */
+
+  /* Degradado naranja-amarillo */
+  background:linear-gradient(45deg,
+              #ffca00 0%,
+              #ff9500 50%,
+              #ff6b00 100%);
+
+  /* Para que el aro quede fuera del flujo (por seguridad) */
+  display:inline-block;
+  box-sizing:border-box;
+}
+
+/* La foto en sí: ocupa TODO el área interna */
+.avatar-wrapper img.avatar-large{
+  width:100%;
+  height:100%;
+  border-radius:50%;
+  object-fit:cover;
+  display:block;          /* quita espacios en línea */
+}
+
+
+
+
+.intro {
+  flex: 1;
+  min-width: 260px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+h1 {
+  font-size: 2.2rem;
+  color: #ffffff;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: #cccccc;
+  margin: 0.5rem 0 1.5rem;
+}
+
+/* ==== Botones modernos borde verde suave ==== */
+.btn.primary,
+.btn.secondary {
+  background: transparent;
+  border: 1px solid #00ffa3;
+  color: #00ffa3;
+  font-weight: bold;
+  padding: 0.75rem 1.8rem;
+  border-radius: 12px;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  box-shadow: none;
+}
+
+.btn.primary:hover,
+.btn.secondary:hover {
+  background-color: #00ffa3;
+  color: #003838;
+  box-shadow: 0 0 10px #00ffa3;
+  transform: translateY(-1px);
+  cursor: pointer;
+}
+
+section {
+  margin: 3rem 0;
+  text-align: center;
+}
+
+section h2 {
+  color: #00d6f2;
+  margin-bottom: 1rem;
+  font-size: 1.6rem;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.tags span {
+
+  background: rgba(0, 229, 255, 0.05);
+  border: 1px solid #00e5ff;
+  padding: 0.4rem 1.1rem;
+  border-radius: 20px;
+  color: #00e5ff;
+  font-size: 0.85rem;
+  backdrop-filter: blur(2px);
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.2rem;
+  margin-top: 1rem;
+}
+
+.card {
+  background: rgba(31, 31, 43, 0.7);
+  padding: 1.2rem;
+  border-radius: 15px;
+  border: 1px solid #00ffb3;
+  transition: transform 0.3s, box-shadow 0.3s;
+  backdrop-filter: blur(6px);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 20px rgba(0, 229, 255, 0.3);
+}
+
+.card h3 {
+  color: #00e5ff;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+blockquote {
+  background: rgba(31, 31, 43, 0.7);
+  padding: 1rem;
+  border-left: 4px solid #00e5ff;
+  margin: 1rem auto;
+  max-width: 600px;
+  color: #ccc;
+  font-style: italic;
+  backdrop-filter: blur(4px);
+}
+
+cite {
+  display: block;
+  text-align: right;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: #888;
+}
+
+form {
+  max-width: 500px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+input,
+textarea {
+  padding: 0.75rem;
+  border-radius: 6px;
+  border: none;
+  background: rgba(31, 31, 43, 0.8);
+  color: #fff;
+  backdrop-filter: blur(3px);
+}
+
+textarea {
+  resize: vertical;
+}
+
+footer {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.linkedin-logo {
+  width: 20px;
+  vertical-align: middle;
+  margin-right: 0.4rem;
+}
+
+@media (max-width: 768px) {
+  .hero-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+  }
+}
+
+/*body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 20% 30%, #003838, transparent 70%),
+              radial-gradient(circle at 80% 60%, #00757A, transparent 70%);
+  z-index: -1;
+  animation: animateBG 15s infinite ease-in-out;
+}
+
+@keyframes animateBG {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
+
+/* === Animaciones de entrada === */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeIn 1s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === Contenedor de partículas === */
+#particles-js {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ░░░  IA Extractor – estilos específicos  ░░░ */
+.ia-page {           /* le da respiro al banner principal */
+  padding-top: 60px;
+}
+
+.ia-container {
+  max-width: 720px;
+  margin: auto;
+  text-align: center;
+}
+
+.upload-box input[type="file"] {
+  color: #00ffa3;
+  margin-bottom: 1rem;
+}
+
+.ia-spinner {        /* círculo de carga */
+  width: 48px;
+  height: 48px;
+  border: 4px solid transparent;
+  border-top: 4px solid #00ffa3;
+  border-radius: 50%;
+  margin: 2rem auto;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.code-block {        /* caja con JSON */
+  text-align: left;
+  padding: 1rem;
+  background: rgba(0,0,0,0.35);
+  border: 1px solid #00ffa3;
+  border-radius: 6px;
+  overflow-x: auto;
+  max-height: 250px;
+}
+
+.link-card { text-decoration: none; color: inherit; }
+.link-card:hover {
+  box-shadow: 0 0 12px #00ffa366;
+  transform: translateY(-4px);
+}
+
+
+/* ====== Estilos exclusivos de ia-extractor.html ====== */
+
+/* formulario */
+#invoiceForm      { max-width:420px; margin:2rem auto; display:flex; flex-direction:column; gap:.8rem }
+#invoiceFile      { padding:.8rem; border-radius:6px; background:#002b2b; color:#fff; border:1px solid #00ffa3 }
+#analizarBtn      { background:#006f46; border:none; color:#fff; font-weight:bold; padding:.9rem 1rem; border-radius:8px; cursor:pointer; transition:.2s }
+#analizarBtn:hover{ filter:brightness(1.1) }
+
+/* spinner */
+#iaSpinner        { width:40px; height:40px; border:4px solid #00ffa360; border-top-color:#00ffa3; border-radius:50%; margin:1rem auto; animation:spin 1s linear infinite }
+@keyframes spin   { to{ transform:rotate(360deg) } }
+
+/* resultado */
+#iaResult         { max-width:800px; margin:2rem auto; display:flex; flex-direction:column; gap:1.5rem }
+.invoice-summary  { background:#022; padding:1.5rem; border:1px solid #00ffa3; border-radius:12px }
+.invoice-summary h3{ margin-bottom:.4rem; color:#00ffa3 }
+.invoice-summary table{ width:100%; border-collapse:collapse; margin-top:1rem }
+.invoice-summary th,.invoice-summary td{ border:1px solid #00ffa340; padding:.4rem; text-align:left }
+
+.chart-wrap       { height:260px }
+
+#iaJson           { white-space:pre-wrap; background:#011; padding:.8rem; border-radius:8px; font-size:.8rem; color:#0f0; display:none } /* actívalo para debug */
+
+.dashboard-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  margin: 2rem auto;
+  max-width: 1100px;
+}
+
+.dashboard-card {
+  background: #011;
+  border: 1px solid #00ffa3;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  width: 280px;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 20px rgba(0, 255, 163, 0.3);
+}
+
+.dashboard-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+.dashboard-card h3 {
+  color: #00ffa3;
+  padding: 1rem;
+  margin: 0;
+}
+
+
+/* ==== Burbuja tipo BitBit ==== */
+#bitbit-bubble {
+  position: fixed;*/
+  background-color: #00aaff; /* celeste */
+  color: #003838;
+  font-weight: bold;
+  padding: 10px 20px;
+  bottom: 20px;              /* 20px arriba del pie de la ventana */
+  right: 20px;               /* 20px desde el lado derecho
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 0 12px rgba(0, 170, 255, 0.6);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  z-index: 1000;
+
+  /* VERY IMPORTANT: No permitir que ocupe el 100% de ancho */
+  width: auto;               /* que su ancho se adapte al contenido */
+  max-width: 260px;          /* opcional: nunca más ancho de 260px */
+}
+#bitbit-bubble:hover {
+  transform: scale(1.05);
+}
+#bitbit-bubble img {
+  width: 36px;
+  height: 36px;
+}
+
+/* ==== Ventana de Chat ==== */
+#bitbit-chatbox {
+  position: fixed;
+  bottom: 80px;           /* lo “levantamos” un poco de la burbuja */
+  right: 20px;            /* misma separación del lado derecho */
+  width: 320px;           /* ancho fijo razonable */
+  max-height: 450px;
+  background: #002d36;
+  border: 2px solid #00ffa3;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 255, 163, 0.5);
+  display: none;          /* inicialmente está oculto */
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 1000;
+}
+.bitbit-header {
+  background: #00ffa3;
+  color: #003838;
+  padding: 10px;
+  font-weight: bold;
+  text-align: center;
+}
+.bitbit-body {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.bitbit-body .msg {
+  padding: 8px 10px;
+  border-radius: 10px;
+  max-width: 85%;
+}
+.msg.bot {
+  background: #00ffa340;
+  color: #00ffa3;
+  align-self: flex-start;
+}
+.msg.user {
+  background: #004d40;
+  color: #fff;
+  align-self: flex-end;
+}
+#bitbitInput {
+  border: none;
+  padding: 10px;
+  outline: none;
+  background: #003838;
+  color: #fff;
+  width: 100%;
+}
+#bitbit-input-area {
+  display: flex;
+  border-top: 1px solid #00ffa3;
+}
+#bitbit-input-area button {
+  background: #00ffa3;
+  border: none;
+  padding: 10px 16px;
+  color: #003838;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+
+/* ==== Chat box ==== */
+#bitbit-chatbox {
+  display: none;
+  flex-direction: column;
+  position: fixed;
+  bottom: 80px;
+  left: 20px;
+  width: 300px;
+  height: 400px;
+  background: #011;
+  border: 1px solid #00ffa3;
+  border-radius: 15px;
+  overflow: hidden;
+  z-index: 1000;
+}
+.bitbit-header {
+  background: #00ffa3;
+  color: #003838;
+  padding: 10px;
+  font-weight: bold;
+  text-align: center;
+}
+.bitbit-body {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.bitbit-body .msg {
+  padding: 8px 10px;
+  border-radius: 10px;
+  max-width: 85%;
+}
+.msg.bot {
+  background: #00ffa340;
+  color: #00ffa3;
+  align-self: flex-start;
+}
+.msg.user {
+  background: #004d40;
+  color: #fff;
+  align-self: flex-end;
+}
+#bitbitInput {
+  border: none;
+  padding: 10px;
+  outline: none;
+  background: #003838;
+  color: #fff;
+  width: 100%;
+}
+
+/* ===== Iconos dentro de tags de certificaciones ===== */
+.tags span {
+  display: inline-flex;            /* Permite alinear icono + texto en línea */
+  align-items: center;             /* Centra verticalmente icono y texto */
+  gap: 0.5rem;                     /* Espacio entre icono y texto */
+  background: rgba(0, 229, 255, 0.05);
+  border: 1px solid #00e5ff;
+  padding: 0.4rem 1.1rem;
+  border-radius: 20px;
+  color: #00e5ff;
+  font-size: 0.85rem;
+  backdrop-filter: blur(2px);
+  margin: 0.3rem;                  /* Un pequeño margen alrededor de cada etiqueta */
+}
+
+.tags span .cert-icon {
+  width: 20px;     /* Ancho fijo para cada icono */
+  height: 20px;    /* Alto fijo para cada icono */
+  object-fit: contain;
+}
+
+/* ░░░ Carrusel “Experiencia Laboral” — versión final ░░░ */
+.experience-slider{
+  overflow:hidden;
+  margin:2rem auto;
+  max-width:100%;
+}
+
+/* Pista que se autorregula al número de slides */
+.slide-track{
+  display:flex;
+  gap:32px;                       /* espacio entre tarjetas */
+  width:max-content;
+  animation:scroll-exp 60s linear infinite;   /* ⇠ velocidad más lenta */
+}
+
+
+/* Animación: como hay 8 slides (4 reales + 4 duplicados),
+   desplazamos justo el 50 % para que el bucle sea perfecto */
+@keyframes scroll-exp{
+  from{ transform:translateX(0);   }
+  to  { transform:translateX(-50%);}
+}
+
+/* Tarjeta – ahora 260 px de ancho */
+/*.slide{
+  flex:0 0 400px;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  background:rgba(1,13,20,.7);
+  border:1px solid #00ffa3;
+  border-radius:12px;
+  padding:1rem .8rem;
+}
+
+/* Logo algo más compacto dentro de la tarjeta */
+.slide-logo{
+  display:block;
+  margin:0 auto .8rem;
+  max-width:180px;       /* antes 180px */
+  height:auto;
+  object-fit:contain;
+}
+
+/* Viñetas alineadas a la izquierda y sin sangrías raras */
+.slide .funciones{
+  list-style:disc;                /* viñeta clásica */
+  padding-left:1.2rem;            /* indent uniforme */
+  margin:0;
+  text-align:left;
+}
+.slide .funciones li{ margin-bottom:.4rem; }
+
+/* ===== Ajuste responsivo ===== */
+@media (max-width:768px){
+  .slide{ flex:0 0 240px; }
+  @keyframes scroll-exp{ from{transform:translateX(0);} to{transform:translateX(-50%);} }
+}
+
+/* ===== Versión móvil ===== */
+@media (max-width:768px){
+  .slide{ flex:0 0 200px; }              /* más estrecho en móvil */
+  /* La animación sigue siendo 45 s, así mantiene misma sensación */
+}
+
+
+
+/* ░░░ Fondo suave para las tarjetas del carrusel ░░░ */
+.slide{
+  flex:0 0 400px;                         /* mantiene ancho compacto */
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+
+  /* === Nuevo fondo “glass” === */
+  background:rgba(0, 60, 70, 0.28);       /* teal oscuro con un poco de luz */
+  backdrop-filter:blur(6px) saturate(140%);
+
+  /* Borde más tenue pero aún “glow” */
+  border:1px solid rgba(0,255,163,0.45);
+  border-radius:12px;
+  padding:1rem .9rem;
+}
+
+/* Colores de texto más claros dentro de la tarjeta */
+.slide h3,
+.slide .period,
+.slide .funciones li{
+  color:#e5faff;                          /* blanco-azulado suave */
+}
+
+/* Viñetas */
+.slide .funciones{
+  list-style:disc;
+  padding-left:1.2rem;
+  margin:0;
+  text-align:left;
+}
+.slide .funciones li{ margin-bottom:.4rem; }
+
+/* Logos un poco mayores para destacar sobre fondo más claro */
+.slide-logo{
+  max-width:170px;
+  margin:0 auto .9rem;
+}
+
+/* Responsivo – solo el ancho cambia, el fondo queda igual */
+@media (max-width:768px){
+  .slide{ flex:0 0 200px; }
+}
+
+
+/* ░░░ Nuevo fondo profesional ░░░ */
+/* ░░░ Tema “Slate Midnight” ░░░ */
+
+/* 1. Fondo global */
+body{
+  background:#1C2430;      /* slate midnight */
+  color:#F2F6FA;           /* blanco muy suave para texto genérico */
+}
+
+/* 2. Quitamos el gradiente viejo para que no contamine el tono */
+body::before{ content:none; }
+
+/* 3. Tarjetas — “glass” muy sutil sobre el nuevo fondo */
+.slide,
+.card,
+.dashboard-card,
+blockquote{
+  background:rgba(255,255,255,0.04);   /* película translúcida */
+  border:1px solid #00ffa3;            /* mantiene tu acento */
+}
+
+/* 4. Texto dentro de las tarjetas */
+.slide h3,
+.slide .period,
+.slide .funciones li{
+  color:#EAF2FF;                       /* blanco-azulado suave */
+}
+
+body{
+  background:
+    radial-gradient(circle at 30% 40%, #243047 0%, transparent 60%),
+    #1C2430;
+}
+
+
+/* ░░░ Iconos dentro de .tags — tamaño fijo ░░░ */
+.tags img, .tag-icon{
+  width:22px;
+  height:22px;
+  object-fit:contain;   /* evita deformaciones */
+  flex-shrink:0;        /* no se comprimen */
+}
+
+
+/* ░░░ Testimonio – contenedor ░░░ */
+.testimonial{
+  display:flex;
+  align-items:center;
+  gap:.6rem;
+  margin-top:1.2rem;
+
+  /* Animación de aparición */
+  opacity:0;
+  transform:translateY(12px);
+  animation:fadeSlide .8s ease-out forwards;
+  animation-delay:.4s;         /* espera a que se lea la lista */
+}
+
+/* Avatar circular */
+.testimonial-avatar{
+  width:36px; height:36px;
+  border-radius:50%;
+  flex-shrink:0;
+  filter:drop-shadow(0 0 4px rgba(0,0,0,.3));
+}
+
+
+
+
+/* Texto con efecto máquina de escribir */
+.testimonial-text{
+  color:#EAF2FF;
+  font-size:.8rem;
+  overflow:hidden;
+  white-space:nowrap;
+  /* máquina de escribir */
+  border-right:2px solid currentColor;
+}
+
+.slide{ display:flex; flex-direction:column; }
+.testimonial{ margin-top:auto; }   /* empuja al fondo */
+
+/* Keyframes */
+@keyframes fadeSlide{
+  to{ opacity:1; transform:translateY(0); }
+}
+
+
+/* ░░░ Testimonio multi-línea ░░░ */
+.slide{
+  display:flex;
+  flex-direction:column;      /* funciones arriba, testimonio abajo */
+}
+
+/* ░░░ Estilo chat-bubble ░░░ */
+.testimonial{
+  margin-top:auto;
+  display:flex;
+  flex-direction:column;        /* texto arriba, avatar abajo */
+  align-items:center;           /* centra en horizontal */
+  gap:.5rem;
+  min-height:92px;              /* deja 2–3 líneas + avatar */
+}
+
+.testimonial-text{
+  position:relative;
+  max-width:240px;
+  padding:.7rem 1rem;
+  background:rgba(255,255,255,0.08);   /* burbuja suave */
+  border:1px solid #00ffa355;
+  border-radius:12px;
+  color:#EAF2FF;
+  line-height:1.25rem;
+  white-space:normal;
+  word-break:break-word;
+
+  /* caret parpadeante al final */
+  border-right:2px solid currentColor;
+}
+
+/* Flechita de la burbuja */
+.testimonial-text::after{
+  content:"";
+  position:absolute;
+  bottom:-6px; left:24px;        /* posición de la puntita */
+  width:10px; height:10px;
+  background:inherit;
+  border-left:inherit; border-bottom:inherit;
+  transform:rotate(45deg);
+}
+
+/* Avatar pequeño, debajo de la burbuja */
+.testimonial-avatar{
+  width:34px; height:34px;
+  border-radius:50%;
+  flex-shrink:0;
+  filter:drop-shadow(0 0 4px rgba(0,0,0,.3));
+}
+
+
+
+/* ░░░ Dashboards – título y nota ░░░ */
+.dash-title{
+  text-align:center;
+  color:#00ffa3;
+  margin-bottom:.4rem;
+}
+
+.dash-note{
+  font-family:'Inter','Segoe UI',sans-serif;  /* nueva fuente */
+  font-size:.88rem;
+  font-weight:400;
+  color:#AFC4D8;
+  text-align:center;
+  max-width:740px;
+  margin:.6rem auto 1.6rem;
+  letter-spacing:.2px;                        /* sutil pero legible */
+}
+
+
+
+/* ░░░ Galería: tarjetas en fila — se adaptan al espacio ░░░ */
+.dashboard-gallery{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:1.4rem;
+}
+
+/* Las tarjetas ya las tenías definidas; si quieres que
+   mantengan ancho fijo en desktop, añade:               */
+.dashboard-card{
+  width:280px;                      /* fuerza 3 en la fila si hay espacio */
+}
+
+
+
+/* ░░░ Footer profesional ░░░ */
+.site-footer{
+  margin-top:2.5rem;
+  padding:1.2rem 1rem;
+  text-align:center;
+  font-size:.8rem;
+  color:#7F94AA;                       /* gris-azul suave */
+  border-top:1px solid rgba(255,255,255,.06);
+}
+
+.site-footer a{
+  color:#00ffa3;                       /* acento corporativo */
+  text-decoration:none;
+}
+
+.site-footer a:hover{
+  text-decoration:underline;
+}
