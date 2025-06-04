@@ -1,3 +1,6 @@
+// Definimos la URL pública de tu backend en Render
+const BACKEND_URL = "https://portafolio-jeissonvr-backend.onrender.com";
+
 const form    = document.getElementById("invoiceForm");
 const fileIn  = document.getElementById("invoiceFile");
 const spinner = document.getElementById("iaSpinner");
@@ -23,7 +26,11 @@ form.addEventListener("submit", async (e) => {
 
   let data;
   try {
-    const resp = await fetch("http://localhost:3001/parse", { method: "POST", body: fd });
+    // Cambiamos localhost por BACKEND_URL
+    const resp = await fetch(`${BACKEND_URL}/parse`, {
+      method: "POST",
+      body: fd
+    });
     data = await resp.json();
     if (!resp.ok) throw new Error(data.error || `Error ${resp.status}`);
   } catch (err) {
@@ -84,7 +91,6 @@ function renderFactura(d) {
   });
 
   // Recomendación
-  // Encuentra la partida de mayor gasto
   const mayor = d.partidas.reduce((a,b) => b.monto > a.monto ? b : a, d.partidas[0]);
   reco.innerHTML = `
     <strong>Recomendación:</strong><br/>
@@ -108,10 +114,6 @@ pdfBtn.addEventListener("click", () => {
 
 
 
-
-
-
-
 function toggleBitChat() {
   const box = document.getElementById('bitbit-chatbox');
   box.style.display = box.style.display === 'flex' ? 'none' : 'flex';
@@ -131,8 +133,8 @@ function handleBitbitKey(event) {
     chatBody.appendChild(userMsg);
     input.value = "";
 
-    // Llamar a OpenAI vía servidor
-    fetch('http://localhost:3001/bitbit-chat', {
+    // Llamar a tu backend en Render en lugar de localhost
+    fetch(`${BACKEND_URL}/bitbit-chat`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ question })
