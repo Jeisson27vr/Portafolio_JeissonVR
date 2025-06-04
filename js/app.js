@@ -1,3 +1,7 @@
+// ----------------------------
+// js/app.js
+// ----------------------------
+
 // Mostrar contenido tras el loader
 window.addEventListener("load", () => {
   const loader = document.getElementById("loader");
@@ -16,9 +20,11 @@ window.addEventListener("load", () => {
 });
 
 // Sonido en hover para botones
-const hoverSound = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_471d0c1ccf.mp3?filename=click-melodic-110624.mp3");
+const hoverSound = new Audio(
+  "https://cdn.pixabay.com/download/audio/2022/03/15/audio_471d0c1ccf.mp3?filename=click-melodic-110624.mp3"
+);
 document.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll(".btn").forEach(btn => {
+  document.querySelectorAll(".btn").forEach((btn) => {
     btn.addEventListener("mouseenter", () => {
       hoverSound.currentTime = 0;
       hoverSound.play();
@@ -28,19 +34,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Sonido al iniciar la interfaz
 function reproducirSonidoInicio() {
-  const initSound = new Audio("https://cdn.pixabay.com/download/audio/2022/03/03/audio_3505a6dbe3.mp3?filename=soft-notification-136512.mp3");
+  const initSound = new Audio(
+    "https://cdn.pixabay.com/download/audio/2022/03/03/audio_3505a6dbe3.mp3?filename=soft-notification-136512.mp3"
+  );
   initSound.volume = 0.5;
   initSound.play();
 }
 
 // Activar animaciones .fade-in
 function activarFadeIn() {
-  document.querySelectorAll("section, header").forEach(el => {
+  document.querySelectorAll("section, header").forEach((el) => {
     el.classList.add("fade-in");
   });
 }
 
-// Formulario con mensaje de gracias
+// Formulario con mensaje de gracias (Formspree)
 function mostrarGracias(e) {
   e.preventDefault();
   const form = e.target;
@@ -48,7 +56,7 @@ function mostrarGracias(e) {
   fetch(form.action, {
     method: "POST",
     body: data,
-    headers: { Accept: "application/json" }
+    headers: { Accept: "application/json" },
   }).then(() => {
     form.style.display = "none";
     document.getElementById("gracias").style.display = "block";
@@ -73,34 +81,67 @@ window.addEventListener("DOMContentLoaded", () => {
           distance: 120,
           color: "#00d6f2",
           opacity: 0.4,
-          width: 1
+          width: 1,
         },
         move: {
           enable: true,
           speed: 1.2,
           direction: "none",
-          out_mode: "out"
-        }
+          out_mode: "out",
+        },
       },
       interactivity: {
         detect_on: "canvas",
         events: {
           onhover: { enable: true, mode: "grab" },
-          onclick: { enable: true, mode: "push" }
+          onclick: { enable: true, mode: "push" },
         },
         modes: {
           grab: { distance: 140, line_linked: { opacity: 0.5 } },
-          push: { particles_nb: 2 }
-        }
+          push: { particles_nb: 2 },
+        },
       },
-      retina_detect: true
+      retina_detect: true,
     });
   };
   document.body.appendChild(script);
 });
 
+// -----------------------------------
+// Función para mostrar/ocultar Chat
+// -----------------------------------
+function toggleBitbitChat() {
+  const chatBox = document.getElementById("chatWindow");
+  // Intercala entre 'flex' y 'none'
+  chatBox.style.display = chatBox.style.display === "flex" ? "none" : "flex";
+}
 
+// -----------------------------------
+// Efecto “typewriter” en testimonios
+// -----------------------------------
+// Cuando el DOM esté cargado, buscamos todos los .testimonial-text
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".testimonial-text").forEach((el) => {
+    const full = el.textContent.trim();
+    const speed = 95; // 95 ms por carácter (~10-11 cps)
+    const pause = 3500; // 3,5 s de pausa al terminar
+    let i = 0;
+    el.textContent = ""; // inicia vacío
 
-
-
-
+    function loop() {
+      if (i <= full.length) {
+        el.textContent = full.slice(0, i);
+        i++;
+        setTimeout(loop, speed);
+      } else {
+        // Una vez completo, espera y reinicia
+        setTimeout(() => {
+          el.textContent = "";
+          i = 0;
+          loop();
+        }, pause);
+      }
+    }
+    loop();
+  });
+});
