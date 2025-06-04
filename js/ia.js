@@ -112,8 +112,6 @@ pdfBtn.addEventListener("click", () => {
   }).from(result).save();
 });
 
-
-
 function toggleBitChat() {
   const box = document.getElementById('bitbit-chatbox');
   box.style.display = box.style.display === 'flex' ? 'none' : 'flex';
